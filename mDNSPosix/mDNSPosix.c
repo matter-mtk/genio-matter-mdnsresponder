@@ -527,7 +527,7 @@ mDNSexport void mDNSPlatformDynDNSHostNameStatusChanged(const domainname * const
 mDNSlocal void GetUserSpecifiedRFC1034ComputerName(domainlabel * const namelabel)
 {
     uint8_t mac[WIFI_MAC_ADDRESS_LENGTH];
-    
+
     if (wifi_get_mac_addr_from_efuse(1, &mac[0]) == 0)
     {
         static char map[] = "0123456789ABCDEF";
@@ -1305,7 +1305,7 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
             }
             i = i->ifi_next;
         }*/
-        //err = SetupOneInterface(m, intfAddr, intfNetmask, "st4", 0);
+        err = SetupOneInterface(m, intfAddr, intfNetmask, "st4", 0);
 #if HAVE_IPV6
         err = SetupOneInterface(m, intfAddr6, intfNetmask6, "st6", 0);
 #endif
@@ -1322,7 +1322,7 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
     // Clean up.
     // if (intfList != NULL) free_ifi_info(intfList);
 
-#if 0
+#if 1
 #if HAVE_IPV6
 #if LWIP_IPV6
        free(intfAddr_temp6);
@@ -1503,7 +1503,7 @@ mDNSlocal mDNSu32       ProcessRoutingNotification(int sd)
     PrintRoutingSocketMsg(pRSMsg);
 #endif
 
-	/*FIXME due to RTM_NEWADDR....	
+	/*FIXME due to RTM_NEWADDR....
     // Process the message
     if (pRSMsg->ifam_type == RTM_NEWADDR || pRSMsg->ifam_type == RTM_DELADDR ||
         pRSMsg->ifam_type == RTM_IFINFO)
