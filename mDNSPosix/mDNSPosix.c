@@ -1322,17 +1322,15 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
     // Clean up.
     // if (intfList != NULL) free_ifi_info(intfList);
 
-#if 1
 #if HAVE_IPV6
 #if LWIP_IPV6
-       free(intfAddr_temp6);
-       free(intfNetmask_temp6);
-#endif
-#else
-       free(intfAddr_temp);
-       free(intfNetmask_temp);
+    free(intfAddr_temp6);
+    free(intfNetmask_temp6);
 #endif
 #endif
+    free(intfAddr_temp);
+    free(intfNetmask_temp);
+
     return err;
 }
 
