@@ -218,11 +218,7 @@ int MainDaemonTask(int argc, char ** argv)
 
     LogMsg("%s starting", mDNSResponderVersionString);
 
-    //    err = mDNS_Init(&mDNSStorage, &PlatformStorage, gRRCache, RR_CACHE_SIZE, mDNS_Init_AdvertiseLocalAddresses,
-    //                    mDNS_StatusCallback, mDNS_Init_NoInitCallbackContext);
-
-    err = mDNS_Init(&mDNSStorage, &PlatformStorage, NULL, 0, mDNS_Init_AdvertiseLocalAddresses, NULL,
-                    mDNS_Init_NoInitCallbackContext);
+    err = mDNS_Init(&mDNSStorage, &PlatformStorage, gRRCache, RR_CACHE_SIZE, mDNS_Init_AdvertiseLocalAddresses, mDNS_StatusCallback, mDNS_Init_NoInitCallbackContext);
 
     if (mStatus_NoError == err)
         err = udsserver_init(mDNSNULL, 0);
