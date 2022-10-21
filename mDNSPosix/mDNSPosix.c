@@ -1286,6 +1286,8 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
     free(intfNetmask_temp6);
 #endif
 #endif
+    free(intfAddr_temp);
+    free(intfNetmask_temp);
 
     return err;
 }
