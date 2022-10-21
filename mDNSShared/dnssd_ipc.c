@@ -106,7 +106,7 @@ int put_string(const char *str, char **ptr)
 {
     if (!str) str = "";
     //strcpy(*ptr, str);
-    os_strncpy(*ptr, str, os_strlen(str));
+    os_strncpy(*ptr, str, os_strlen(str) + 1);
     *ptr += os_strlen(str) + 1;
     return 0;
 }
