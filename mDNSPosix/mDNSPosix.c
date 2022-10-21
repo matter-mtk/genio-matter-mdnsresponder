@@ -1171,7 +1171,8 @@ mDNSlocal int SetupOneInterface(mDNS * const m, struct sockaddr * intfAddr, stru
 
     return err;
 }
-// Converts a prefix length to IPv6 netowkr mask
+
+// Converts a prefix length to IPv6 network mask
 void plen_to_mask(int plen, char * addr)
 {
     int i;
@@ -1212,7 +1213,6 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
 {
     mDNSBool foundav4 = mDNSfalse;
     int err           = 0;
-    // struct ifi_info *intfList      = get_ifi_info(AF_INET, mDNStrue);
     // struct ifi_info *firstLoopback = NULL;
 
     assert(m != NULL);
@@ -1236,7 +1236,6 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
     struct sockaddr *intfAddr6, *intfNetmask6 = NULL;
     int lwip_ipv6_addr_index = 0;
 
-    // if (intfList == NULL) err = ENOENT;
 #if HAVE_IPV6
 #if LWIP_IPV6
     struct sockaddr_in6 * intfAddr_temp6;
@@ -1271,56 +1270,15 @@ mDNSlocal int SetupInterfaceList(mDNS * const m)
     intfNetmask_temp->sin_addr.s_addr = netif_var->netmask.u_addr.ip4.addr;
     intfNetmask                       = (struct sockaddr *) intfNetmask_temp;
 
-    //#if HAVE_IPV6
-    //    if (err == 0)       /* Link the IPv6 list to the end of the IPv4 list */
-    //    {
-    //        struct ifi_info **p = &intfList;
-    //        while (*p) p = &(*p)->ifi_next;
-    //        *p = get_ifi_info(AF_INET6, mDNStrue);
-    //    }
-    //#endif
-
     if (err == 0)
     {
-        //        struct ifi_info *i = intfList;
-        /* due to IFF Flags  while (i)
-        {
-            if (     ((i->ifi_addr->sa_family == AF_INET)
-#if HAVE_IPV6
-                      || (i->ifi_addr->sa_family == AF_INET6)
-#endif
-                      ) &&  (i->ifi_flags & IFF_UP) && !(i->ifi_flags & IFF_POINTOPOINT))
-            {
-                if (i->ifi_flags & IFF_LOOPBACK)
-                {
-                    if (firstLoopback == NULL)
-                        firstLoopback = i;
-                }
-                else
-                {
-                    if (SetupOneInterface(m, i->ifi_addr, i->ifi_netmask, i->ifi_name, i->ifi_index) == 0)
-                        if (i->ifi_addr->sa_family == AF_INET)
-                            foundav4 = mDNStrue;
-                }
-            }
-            i = i->ifi_next;
-        }*/
         err = SetupOneInterface(m, intfAddr, intfNetmask, "st4", 0);
 #if HAVE_IPV6
         err = SetupOneInterface(m, intfAddr6, intfNetmask6, "st6", 0);
 #endif
-        // If we found no normal interfaces but we did find a loopback interface, register the
-        // loopback interface.  This allows self-discovery if no interfaces are configured.
-        // Temporary workaround: Multicast loopback on IPv6 interfaces appears not to work.
-        // In the interim, we skip loopback interface only if we found at least one v4 interface to use
-        // if ((m->HostInterfaces == NULL) && (firstLoopback != NULL))
-        // if (!foundav4 && firstLoopback)
-        //    (void) SetupOneInterface(m, firstLoopback->ifi_addr, firstLoopback->ifi_netmask, firstLoopback->ifi_name,
-        //    firstLoopback->ifi_index);
     }
 
     // Clean up.
-    // if (intfList != NULL) free_ifi_info(intfList);
 
 #if HAVE_IPV6
 #if LWIP_IPV6

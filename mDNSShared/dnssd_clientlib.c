@@ -184,7 +184,7 @@ struct CompileTimeAssertionCheck_dnssd_clientlib
 void DNSSD_API TXTRecordCreate
 (
     TXTRecordRef     *txtRecord,
-    uint16_t bufferLen,
+    uint16_t         bufferLen,
     void             *buffer
 )
 {
@@ -197,13 +197,14 @@ void DNSSD_API TXTRecordCreate
 void DNSSD_API TXTRecordDeallocate(TXTRecordRef *txtRecord)
 {
     if (txtRec->malloced) free(txtRec->buffer);
+    TXTRecordCreate(txtRecord, 0, NULL);
 }
 
 DNSServiceErrorType DNSSD_API TXTRecordSetValue
 (
     TXTRecordRef     *txtRecord,
     const char       *key,
-    uint8_t valueSize,
+    uint8_t          valueSize,
     const void       *value
 )
 {
