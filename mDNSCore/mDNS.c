@@ -12892,6 +12892,7 @@ mDNSlocal void AdvertiseInterface(mDNS *const m, NetworkInterfaceInfo *set)
     AssignDomainName(&set->RR_A.namestorage, &m->MulticastHostname);
     if (set->ip.type == mDNSAddrType_IPv4)
     {
+        set->RR_A.resrec.InterfaceID = mDNSInterface_Any;
         set->RR_A.resrec.rrtype = kDNSType_A;
         set->RR_A.resrec.rdata->u.ipv4 = set->ip.ip.v4;
         // Note: This is reverse order compared to a normal dotted-decimal IP address, so we can't use our customary "%.4a" format code
@@ -12901,6 +12902,7 @@ mDNSlocal void AdvertiseInterface(mDNS *const m, NetworkInterfaceInfo *set)
     else if (set->ip.type == mDNSAddrType_IPv6)
     {
         int i;
+        set->RR_A.resrec.InterfaceID = mDNSInterface_Any;
         set->RR_A.resrec.rrtype = kDNSType_AAAA;
         set->RR_A.resrec.rdata->u.ipv6 = set->ip.ip.v6;
         for (i = 0; i < 16; i++)
